@@ -1,0 +1,4 @@
+🍉 From: {{info[0]}}
+💳 To : {{info[1]}}
+💸 Value: {{info[2]}}
+🧊 Blocknumber: {{info[5]}}

@@ -1,0 +1,52 @@
+version: "3.7"
+
+x-logging:
+  &default-logging
+  driver: "json-file"
+  options:
+    max-file: "5"
+    max-size: "10m"
+
+
+services:
+  parse:
+      build:
+        context: .
+        dockerfile: Dockerfile_parse
+      logging: *default-logging
+      restart: always
+      env_file:
+        - .env
+  create_db:
+      build:
+        context: .
+        dockerfile: Dockerfile_create_db
+      logging: *default-logging
+      env_file:
+        - .env
+  bot_in:
+      build:
+        context: .
+        dockerfile: Dockerfile_bot_in
+      logging: *default-logging
+      restart: always
+      env_file:
+        - .env
+  bot_out:
+      build:
+        context: .
+        dockerfile: Dockerfile_bot_out
+      logging: *default-logging
+      restart: always
+      env_file:
+        - .env
+  database:
+    image: postgres
+    ports:
+      - 5001:5432
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=blockchainbot
+      - POSTGRES_PASSWORD=blockchainbot123
+      - POSTGRES_DB=blockchainbot
